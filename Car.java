@@ -1,19 +1,37 @@
 import java.awt.*;
-public class Car {
+public abstract class Car implements Movable {
 
-    public int nrDoors; // Number of doors on the car
-    public double enginePower; // Engine power of the car
-    public double currentSpeed; // The current speed of the car
-    public Color color; // Color of the car
-    public String modelName; // The car model name
+    protected int nrDoors; // Number of doors on the car
+    protected double enginePower; // Engine power of the car
+    protected double currentSpeed; // The current speed of the car
+    protected Color color; // Color of the car
+    protected String modelName; // The car model name
+    protected double[] currentPosition;
+    protected double currentRotation;
+
     public Car(int nrDoors, Color color, double enginePower, String modelName){
         nrDoors = nrDoors;
         color = color;
         enginePower = enginePower;
         modelName = modelName;
         stopEngine();
+        resetTransform();
     }
 
+    public void move(){
+        x = currentPosition[0];
+        y = currentPosition[1];
+
+    }
+
+    public void turnLeft(double degrees){
+        currentRotation += degrees;
+        currentRotation = (rotation % 360) - 180;
+    }
+    public void turnRight(double degrees){
+        currentRotation -= degrees;
+        currentRotation = (rotation % 360) - 180;
+    }
 
     public int getNrDoors(){
         return nrDoors;
@@ -43,15 +61,19 @@ public class Car {
         currentSpeed = 0;
     }
 
-    public double speedFactor(){
+    private double speedFactor(){
         return enginePower * 0.01;
     }
 
-    public void incrementSpeed(double amount){
+    public void resetTransform(){
+        currentPosition = {0,0};
+        currentRotation = 0;
+    }
+    private void incrementSpeed(double amount){
         currentSpeed = getCurrentSpeed() + speedFactor() * amount;
     }
 
-    public void decrementSpeed(double amount){
+    private void decrementSpeed(double amount){
         currentSpeed = getCurrentSpeed() - speedFactor() * amount;
     }
 
