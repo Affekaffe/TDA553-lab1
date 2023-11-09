@@ -1,13 +1,13 @@
 import java.awt.*;
 public abstract class Car implements Movable {
 
-    protected int nrDoors; // Number of doors on the car
-    protected double enginePower; // Engine power of the car
-    protected double currentSpeed; // The current speed of the car
-    protected Color color; // Color of the car
-    protected String modelName; // The car model name
-    protected double[] currentPosition;
-    protected double currentRotation;
+    private final int nrDoors; // Number of doors on the car
+    private final double enginePower; // Engine power of the car
+    private double currentSpeed; // The current speed of the car
+    private Color color; // Color of the car
+    private final String modelName; // The car model name
+    private double[] currentPosition;
+    private double currentRotation;
 
     public Car(int nrDoors, Color color, double enginePower, String modelName){
         this.nrDoors = nrDoors;
@@ -36,11 +36,11 @@ public abstract class Car implements Movable {
     }
 
     public void turnLeft(double degrees){
-        currentRotation += degrees;
+        currentRotation -= degrees;
         currentRotation = (currentRotation % 360) - 180;
     }
     public void turnRight(double degrees){
-        currentRotation -= degrees;
+        currentRotation += degrees;
         currentRotation = (currentRotation % 360) - 180;
     }
 
@@ -60,8 +60,8 @@ public abstract class Car implements Movable {
         return color;
     }
 
-    public void setColor(Color color){
-        this.color = color;
+    public void setColor(Color clr){
+        color = clr;
     }
 
     public void startEngine(){
@@ -73,34 +73,31 @@ public abstract class Car implements Movable {
     }
 
     protected double speedFactor(){
-        return enginePower * 0.01;
+        return getEnginePower() * 0.01;
     }
 
     public void resetTransform(){
         currentPosition = new double[]{0,0};
         currentRotation = 0;
     }
-    protected void incrementSpeed(double amount){
-        double newSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
+    private void incrementSpeed(double amount){
+        double newSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, getEnginePower());
         if(newSpeed > currentSpeed) currentSpeed = newSpeed;
     }
 
-    protected void decrementSpeed(double amount){
+    private void decrementSpeed(double amount){
         double newSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
         if(newSpeed < currentSpeed) currentSpeed = newSpeed;
     }
-    public void gas(double amount) throws Exception {
-        if(amount < 0 || amount > 1){
-            throw new Exception("Gas amount must be in range [0,1]");
-        }
+    public void gas(double amount) {
+        amount = Math.min(1, amount); // Bounds < 1
+        amount = Math.max(0, amount); // Bounds > 0
         incrementSpeed(amount);
     }
 
-    public void brake(double amount) throws Exception {
-        if(amount < 0 || amount > 1){
-            throw new Exception("Brake amount must be in range [0,1]");
-        }
+    public void brake(double amount) {
+        amount = Math.min(1, amount); // Bounds < 1
+        amount = Math.max(0, amount); // Bounds > 0
         decrementSpeed(amount);
     }
-
 }
