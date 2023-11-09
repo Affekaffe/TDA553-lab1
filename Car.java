@@ -10,27 +10,38 @@ public abstract class Car implements Movable {
     protected double currentRotation;
 
     public Car(int nrDoors, Color color, double enginePower, String modelName){
-        nrDoors = nrDoors;
-        color = color;
-        enginePower = enginePower;
-        modelName = modelName;
+        this.nrDoors = nrDoors;
+        this.color = color;
+        this.enginePower = enginePower;
+        this.modelName = modelName;
         stopEngine();
         resetTransform();
     }
 
     public void move(){
-        x = currentPosition[0];
-        y = currentPosition[1];
+        currentPosition[0] += getCurrentSpeed() * Math.sin(Math.toRadians(getCurrentRotation()));
+        currentPosition[1] += getCurrentSpeed() * Math.cos(Math.toRadians(getCurrentRotation()));
+    }
 
+    public double getCurrentRotation() {
+        return currentRotation;
+    }
+
+    public double getX() {
+        return currentPosition[0];
+    }
+
+    public double getY(){
+        return currentPosition[1];
     }
 
     public void turnLeft(double degrees){
         currentRotation += degrees;
-        currentRotation = (rotation % 360) - 180;
+        currentRotation = (currentRotation % 360) - 180;
     }
     public void turnRight(double degrees){
         currentRotation -= degrees;
-        currentRotation = (rotation % 360) - 180;
+        currentRotation = (currentRotation % 360) - 180;
     }
 
     public int getNrDoors(){
@@ -50,7 +61,7 @@ public abstract class Car implements Movable {
     }
 
     public void setColor(Color color){
-        color = color;
+        this.color = color;
     }
 
     public void startEngine(){
@@ -61,29 +72,34 @@ public abstract class Car implements Movable {
         currentSpeed = 0;
     }
 
-    private double speedFactor(){
+    protected double speedFactor(){
         return enginePower * 0.01;
     }
 
     public void resetTransform(){
-        currentPosition = {0,0};
+        currentPosition = new double[]{0,0};
         currentRotation = 0;
     }
-    private void incrementSpeed(double amount){
-        currentSpeed = getCurrentSpeed() + speedFactor() * amount;
+    protected void incrementSpeed(double amount){
+        double newSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
+        if(newSpeed > currentSpeed) currentSpeed = newSpeed;
     }
 
-    private void decrementSpeed(double amount){
-        currentSpeed = getCurrentSpeed() - speedFactor() * amount;
+    protected void decrementSpeed(double amount){
+        double newSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
+        if(newSpeed < currentSpeed) currentSpeed = newSpeed;
     }
-
-    // TODO fix this method according to lab pm
-    public void gas(double amount){
+    public void gas(double amount) throws Exception {
+        if(amount < 0 || amount > 1){
+            throw new Exception("Gas amount must be in range [0,1]");
+        }
         incrementSpeed(amount);
     }
 
-    // TODO fix this method according to lab pm
-    public void brake(double amount){
+    public void brake(double amount) throws Exception {
+        if(amount < 0 || amount > 1){
+            throw new Exception("Brake amount must be in range [0,1]");
+        }
         decrementSpeed(amount);
     }
 

@@ -9,17 +9,17 @@ public class Volvo240 extends Car{
     }
 
     @Override
-    private double speedFactor(){
+    public void turnLeft(double degrees) {
+        super.turnLeft(degrees);
+    }
+
+    @Override
+    public void turnRight(double degrees) {
+        super.turnRight(degrees);
+    }
+
+    @Override
+    protected double speedFactor(){
         return enginePower * 0.01 * trimFactor;
-    }
-
-    @Override
-    private void incrementSpeed(double amount){
-	    currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
-    }
-
-    @Override
-    public void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
     }
 }

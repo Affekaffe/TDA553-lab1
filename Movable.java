@@ -1,5 +1,5 @@
 public interface Movable {
     void move();
-    void turnLeft();
-    void turnRight();
+    void turnLeft(double degrees);
+    void turnRight(double degrees);
 }
