@@ -58,15 +58,7 @@ public class Saab95Test {
     }
 
     @Test
-    public void carShouldNotBrakeMoreThanOne(){
-        currentCar.gas(1);
-        currentCar.gas(1);
-        currentCar.brake(2);
-
-        currentCar2.gas(1);
-        currentCar2.gas(1);
-        currentCar2.brake(1);
-
-        assertEquals(currentCar.getCurrentSpeed(), currentCar2.getCurrentSpeed(), 0.001);
+    public void carShouldNotBrakeMoreThanOne() throws IllegalArgumentException{
+        assertThrows(IllegalArgumentException.class, () -> currentCar.brake(2));
     }
 }

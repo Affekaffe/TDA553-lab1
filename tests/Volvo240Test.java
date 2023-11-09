@@ -10,6 +10,11 @@ public class Volvo240Test {
     public void createVolvo(){
         currentCar = new Volvo240();
     }
+
+    @Test
+    public void modelNameIsVolvo240(){
+        assertEquals(currentCar.getModelName(), "Volvo240");
+    }
     @Test
     public void carShouldMoveToTheLeftAt90DegLeftTurn(){
         currentCar.turnLeft(90);

@@ -55,6 +55,9 @@ public abstract class Car implements Movable {
     public double getCurrentSpeed(){
         return currentSpeed;
     }
+    public String getModelName(){
+        return modelName;
+    }
 
     public Color getColor(){
         return color;
@@ -89,15 +92,17 @@ public abstract class Car implements Movable {
         double newSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
         if(newSpeed < currentSpeed) currentSpeed = newSpeed;
     }
-    public void gas(double amount) {
-        amount = Math.min(1, amount); // Bounds < 1
-        amount = Math.max(0, amount); // Bounds > 0
+    public void gas(double amount) throws IllegalArgumentException {
+        if (amount < 0 || amount > 1) {
+            throw new IllegalArgumentException("Gas amount must be double in range [0,1]");
+        }
         incrementSpeed(amount);
     }
 
-    public void brake(double amount) {
-        amount = Math.min(1, amount); // Bounds < 1
-        amount = Math.max(0, amount); // Bounds > 0
+    public void brake(double amount) throws IllegalArgumentException {
+        if (amount < 0 || amount > 1) {
+            throw new IllegalArgumentException("Gas amount must be double in range [0,1]");
+        }
         decrementSpeed(amount);
     }
 }
