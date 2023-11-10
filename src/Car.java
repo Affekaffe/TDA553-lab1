@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.*;
 public abstract class Car implements Movable {
 
@@ -75,9 +77,7 @@ public abstract class Car implements Movable {
         currentSpeed = 0;
     }
 
-    protected double speedFactor(){
-        return getEnginePower() * 0.01;
-    }
+    protected abstract double speedFactor();
 
     public void resetTransform(){
         currentPosition = new double[]{0,0};

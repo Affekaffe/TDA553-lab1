@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.*;
 
 public class Volvo240 extends Car{
@@ -9,7 +11,6 @@ public class Volvo240 extends Car{
         trimFactor = 1.25;
     }
 
-    @Override
     protected double speedFactor(){
         return getEnginePower() * 0.01 * trimFactor;
     }

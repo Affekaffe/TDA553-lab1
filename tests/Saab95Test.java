@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import src.Car;
+import src.Saab95;
 
 import java.awt.*;
 

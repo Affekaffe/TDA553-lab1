@@ -1,6 +1,8 @@
+package src;
+
 import java.awt.*;
 
-public class Saab95 extends Car{
+public class Saab95 extends Car {
 
     private boolean turboOn;
 
@@ -17,7 +19,6 @@ public class Saab95 extends Car{
 	    turboOn = false;
     }
 
-    @Override
     protected double speedFactor(){
         double turbo = 1;
         double turboFactor = 1.3;
